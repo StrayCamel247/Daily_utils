@@ -30,7 +30,8 @@ def logger_set():
     # 如果目录不存在则创建
     logsf_loder.mkdir(parents=True, exist_ok=True)
     # 储存的文件名，带时间戳后缀
-    logs_file=logsf_loder / "{}.log".format(datetime.datetime.now().strftime('%y-%m-%d'))
+    logs_file = logsf_loder / \
+        "{}.log".format(datetime.datetime.now().strftime('%y-%m-%d'))
     # 转为绝对路径
     fh = logging.FileHandler(logs_file.resolve(), encoding="utf-8", mode="a")
     logger.setLevel(logging.INFO)
@@ -114,19 +115,18 @@ class fanyi(YouDaoFanYi):
         res = self.fanyi_word(word=word)
         if res.get('translateResult'):
             smartResults = res.get('smartResult', {}).get('entries', [])
-            res = '\n  '.join([word]+[
+            results = [
                 re.sub("[\!\%\\t\\r\\n]", "", res)
                 for res in smartResults
                 if res
-            ])
-            return res
+            ]
+            rest = '\n  '.join([word]+results) if results else ''
+            return rest
 
     def word_analysis_copy(self, *args: '翻译单个或多个单词', **kwds: Any):
         """
         """
-        logging.info('\n'.join(map(self._fanyi_word, args)))
-        # t = '\n'.join(map(self._fanyi_word, args))
-        pass
+        logging.info('\n'.join(map(self._fanyi_word, set(args))))
 
     def __call__(self, *args: Any, **kwds: Any) -> Any:
         self.word_analysis_copy(*args)
