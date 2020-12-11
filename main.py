@@ -113,20 +113,24 @@ class fanyi(YouDaoFanYi):
 
     def _fanyi_word(self, word):
         res = self.fanyi_word(word=word)
-        if res.get('translateResult'):
-            smartResults = res.get('smartResult', {}).get('entries', [])
-            results = [
-                re.sub("[\!\%\\t\\r\\n]", "", res)
-                for res in smartResults
-                if res
-            ]
+        try:
+            if res.get('translateResult'):
+                smartResults = res.get('smartResult', {}).get('entries', [])
+                results = [
+                    re.sub("[\!\%\\t\\r\\n]", "", res)
+                    for res in smartResults
+                    if res
+                ]
             rest = '\n  '.join([word]+results) if results else ''
             return rest
+        except:
+            pass
 
     def word_analysis_copy(self, *args: '翻译单个或多个单词', **kwds: Any):
         """
         """
-        logging.info('\n'.join(map(self._fanyi_word, set(args))))
+        args = [' '.join(_.split('_')) if '_' in _ else _ for _ in set(args)]
+        logging.info('\n'.join(map(self._fanyi_word, args)))
 
     def __call__(self, *args: Any, **kwds: Any) -> Any:
         self.word_analysis_copy(*args)
