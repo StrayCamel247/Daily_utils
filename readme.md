@@ -10,7 +10,7 @@
 **代码运行**
 多个单词查询
 ```
-(env) PS F:\xxxxxx\Daily_utils> python main.py fragment love sister
+(env) PS F:\xxxxxx\Daily_utils> python trans.py fragment love sister
 love
   n. 爱；爱情；喜好；（昵称）亲爱的；爱你的；心爱的人；钟爱之物；零分
   v. 爱恋（某人）；关爱；喜欢（某物或某事）；忠于
@@ -25,7 +25,7 @@ sister
 ```
 单个单词查询
 ```
-(env) PS F:\xxxxxx\Daily_utils> python main.py fragment
+(env) PS F:\xxxxxx\Daily_utils> python trans.py fragment
 fragment
   n. 碎片；片段或不完整部分
   vt. 使成碎片
